@@ -63,10 +63,9 @@ const sessionOptions ={
     },
 };
 
-const PORT= process.env.PORT || 8080;
 //app listining
-app.listen(PORT, ()=>{
-    console.log(`app is listening`);
+app.listen(8080, ()=>{
+    console.log("app is listening to port 8080");
 });
 
 app.use(session(sessionOptions));
