@@ -1,0 +1,45 @@
+.rating {
+  display: flex;
+  gap: 6px;
+}
+
+.star {
+  font-size: 35px;
+  color: #ccc;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.star:hover {
+  transform: scale(1.2);
+}
+
+.star.active {
+  color: #ffc107;
+}
+
+.star.hovered {
+  color: #ffc107;
+  transform: scale(1.15);
+}
+
+.star {
+  font-size: 38px;
+  font-weight: 700;
+  transform: scale(1.1);
+}
+
+
+
+
+.rating-stars {
+  font-size: 22px;
+}
+
+.rating-stars .gold {
+  color: #ffc107;
+}
+
+.rating-stars .empty {
+  color: #ccc;
+}
