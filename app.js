@@ -2,7 +2,6 @@ if(process.env.NODE_ENV != "production"){
     require("dotenv").config();
 }
 
-console.log(process.env.SECRET);
 const express= require("express");
 const app=express();
 const mongoose=require("mongoose");
@@ -67,7 +66,7 @@ const sessionOptions ={
 const PORT= process.env.PORT || 8080;
 //app listining
 app.listen(PORT, ()=>{
-    console.log(`app is listening on port ${PORT}`);
+    console.log(`app is listening`);
 });
 
 app.use(session(sessionOptions));
