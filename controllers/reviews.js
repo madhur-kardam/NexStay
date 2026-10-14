@@ -14,7 +14,7 @@ module.exports.postReview=async (req, res)=> {
     await listing.save();
     req.flash("success", "Review added!");
 
-    res.redirect(`/listings/${listing._id}`);
+    res.redirect(`/${listing._id}`);
 }
 
 
@@ -27,5 +27,5 @@ module.exports.deleteReview=async (req, res) => {
     req.flash("success", "Review deleted!");
 
 
-    res.redirect(`/listings/${id}`);
+    res.redirect(`/${id}`);
 }

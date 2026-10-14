@@ -17,7 +17,7 @@ module.exports.Signup=async(req, res)=>{
     return next(err);
    }
   req.flash("success", "Welcome to NexStay");
-  res.redirect("/listings");
+  res.redirect("/");
   });
  }catch(e){
   req.flash("error", e.message);
@@ -33,7 +33,7 @@ module.exports.renderLogin=(req, res) => {
 //login
 module.exports.Login=async(req, res) =>{
  req.flash("success","welcome to NexStay");
- let redirectUrl= res.locals.redirectUrl || "/listings";
+ let redirectUrl= res.locals.redirectUrl || "/";
  res.redirect(redirectUrl);
 }
 
@@ -44,6 +44,6 @@ module.exports.Logout= (req,res,next)=>{
    return next(err);
   }
   req.flash("success","you are looged out!");
-  res.redirect("/listings")
+  res.redirect("/")
  })
 }

@@ -34,7 +34,7 @@ module.exports.create=async (req, res, next)=>{
 
     await newListing.save();
     req.flash("success", "New Listing Created!");
-    res.redirect("/listings");
+    res.redirect("/");
 }
 
 //show individual listing route
@@ -49,7 +49,7 @@ module.exports.show=async( req, res)=> {
     .populate("owner");
     if(!listing){
         req.flash("error", "Listing does not exist!");
-        return res.redirect("/listings");
+        return res.redirect("/");
     }
     res.render("./listings/show.ejs",{ listing });
     console.log(listing);
@@ -61,11 +61,11 @@ module.exports.editFrom=async (req, res)=>{
     const listing= await Listing.findById(id);
     if(!listing){
         req.flash("error", "Listing does not exist!");
-        return res.redirect("/listings");
+        return res.redirect("/");
     }
     let originalImageUrl = listing.image.url;
     originalImageUrl=originalImageUrl.replace("/upload","/upload/w_280")
-    res.render("./listings/edit", {listing, originalImageUrl});
+    res.render("./listings/edit.ejs", {listing, originalImageUrl});
 }
 
 //update listing route
@@ -81,6 +81,14 @@ module.exports.updateListing=async (req, res) => {
     listing.location = req.body.listing.location;
     listing.country = req.body.listing.country;
 
+    let response = await geocodingClient.forwardGeocode({ query: req.body.listing.location, limit: 1 }).send();
+    listing.geometry = response.body.features[0].geometry;
+
+    if(!response.body.features.length){
+    req.flash("error","Location not found!");
+    return res.redirect("/new");
+    }
+
     if(typeof req.file !== "undefined"){
     let url=req.file.path;
     let filename=req.file.filename;
@@ -89,7 +97,7 @@ module.exports.updateListing=async (req, res) => {
 
     await listing.save();
     req.flash("success", "Listing Updated!");
-    res.redirect(`/listings/${id}`);
+    res.redirect(`/${id}`);
 
 };
 
@@ -99,6 +107,6 @@ module.exports.deleteListing=async(req,res)=>{
     let deletedListing= await Listing.findByIdAndDelete(id);
     console.log(deletedListing);
     req.flash("success", "Listing Deleted!");
-    res.redirect("/listings");
+    res.redirect("/");
 
 }

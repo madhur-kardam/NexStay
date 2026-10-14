@@ -47,7 +47,7 @@ const store = MongoStore.create({
     touchAfter: 24 * 3600,
 });
 
-store.on("error",()=>{
+store.on("error",(err)=>{
     console.log("error in mongo session storage", err);
 })
 
@@ -55,7 +55,7 @@ const sessionOptions ={
     store,
     secret: process.env.SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
         expires: Date.now() + 7*24*60*60*1000,
         maxAge: 7*24*60*60*1000,
@@ -64,7 +64,7 @@ const sessionOptions ={
 };
 
 //app listining
-app.listen(8080, ()=>{
+app.listen(process.env.PORT || 8080, ()=>{
     console.log("app is listening to port 8080");
 });
 
@@ -86,9 +86,9 @@ app.use((req,res,next)=>{
 });
 
 //common routes
-app.use("/listings", listingRouter);
-app.use("/listings/:id/reviews" , reviewRouter);
 app.use("/" , userRouter);
+app.use("/:id/reviews" , reviewRouter);
+app.use("/", listingRouter);
 
 
 app.all("/*splat", (req, res, next) =>{

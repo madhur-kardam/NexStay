@@ -1,5 +1,12 @@
 const express = require ("express");
 const router= express.Router();
+const mongoose = require("mongoose");
+const ExpressError = require("../utils/ExpressError.js");
+
+router.param("id", (req, res, next, id) => {
+    if (!mongoose.isValidObjectId(id)) return next(new ExpressError(404, "Page not found!"));
+    next();
+});
 const wrapAsync=require("../utils/wrapAsync.js");
 const { isLoggedIn, isOwner, validateListing }=require("../middleware");
 const listingController= require("../controllers/listings.js");
